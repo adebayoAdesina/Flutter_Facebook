@@ -29,15 +29,17 @@ class PostContainer extends StatelessWidget {
                 Text(
                   post.caption.toString(),
                 ),
-                post.imageUrl.toString() == ''
-                    ? const SizedBox.shrink()
+                post.imageUrl == null
+                    ? const SizedBox(
+                        height: 6.0,
+                      )
                     : const SizedBox(
                         height: 6.0,
                       ),
               ],
             ),
           ),
-          post.imageUrl != ''
+          post.imageUrl != null
               ? Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: CachedNetworkImage(
