@@ -66,8 +66,24 @@ class StoryCard extends StatelessWidget {
                         color: Palette.facebookBlue,
                       )),
                 )
-              : ProfileAvatar(imageUrl: story!.imageUrl.toString(), hasBorder: true,),
-        )
+              : ProfileAvatar(
+                  imageUrl: story!.imageUrl.toString(),
+                  hasBorder: true,
+                ),
+        ),
+        Positioned(
+          bottom: 8.0,
+          left: 8.0,
+          child: Text(
+            isAddStory ? 'Add to story' : story!.user!.name.toString(),
+            style: const TextStyle(
+              color: Palette.whiteColor,
+              fontWeight: FontWeight.bold,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ],
     );
   }
