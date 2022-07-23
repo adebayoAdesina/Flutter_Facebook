@@ -21,7 +21,7 @@ class DesktopScreen extends StatelessWidget {
         Flexible(
           flex: 2,
           child: Align(
-            alignment: Alignment.centerLeft,
+            alignment: Alignment.topLeft,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: MoreOptionsList(currentUser: currentUser),

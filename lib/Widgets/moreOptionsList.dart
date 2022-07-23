@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../Model/userModel.dart';
+import 'option.dart';
 
 class MoreOptionsList extends StatelessWidget {
   List<List> moreOptionsList = [
@@ -20,8 +21,12 @@ class MoreOptionsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(maxWidth: 280.0),
+      constraints: const BoxConstraints(maxWidth: 280.0),
+      
       child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        physics: const ScrollPhysics(),
+        shrinkWrap: true,
           itemCount: moreOptionsList.length + 1,
           itemBuilder: (context, index) {
             if (index == 0) {
@@ -30,13 +35,13 @@ class MoreOptionsList extends StatelessWidget {
                 child: UserCard(user: currentUser),
               );
             }
-            final List option = moreOptionsList[index];
+            final List option = moreOptionsList[index-1];
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child:
                   Option(icon: option[0], color: option[1], label: option[2]),
             );
-          }),
+          },),
     );
   }
 }

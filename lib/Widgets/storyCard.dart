@@ -41,7 +41,7 @@ class StoryCard extends StatelessWidget {
         ),
         Container(
           height: double.infinity,
-          width: 120,
+          width: 115,
           decoration: BoxDecoration(
               gradient: Palette.storyGradient,
               borderRadius: BorderRadius.circular(12.0),
