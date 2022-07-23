@@ -1,3 +1,4 @@
+import 'package:facebook_ui/Responsiveness/responsiveness.dart';
 import 'package:facebook_ui/Util/colors.dart';
 import 'package:facebook_ui/Widgets/storyCard.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class Stories extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 200.0,
-      color: Palette.whiteColor,
+      color: Responsiveness.isDesktop(context) ? Colors.transparent : Palette.whiteColor,
       child: ListView.builder(
         padding: const EdgeInsets.symmetric(
           vertical: 10.0,

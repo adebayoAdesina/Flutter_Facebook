@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook_ui/Model/userModel.dart';
+import 'package:facebook_ui/Responsiveness/responsiveness.dart';
 import 'package:facebook_ui/Util/colors.dart';
 import 'package:facebook_ui/Widgets/profileAvatar.dart';
 import 'package:flutter/material.dart';
@@ -42,9 +43,16 @@ class StoryCard extends StatelessWidget {
           height: double.infinity,
           width: 120,
           decoration: BoxDecoration(
-            gradient: Palette.storyGradient,
-            borderRadius: BorderRadius.circular(12.0),
-          ),
+              gradient: Palette.storyGradient,
+              borderRadius: BorderRadius.circular(12.0),
+              boxShadow: Responsiveness.isDesktop(context)
+                  ? const [
+                      BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0, 2),
+                          blurRadius: 4.0)
+                    ]
+                  : null),
         ),
         Positioned(
           top: 8.0,

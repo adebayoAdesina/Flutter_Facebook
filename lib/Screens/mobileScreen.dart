@@ -1,57 +1,87 @@
-import 'package:facebook_ui/Views/homePage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../Widgets/customTabBar.dart';
+import '../Data/data.dart';
+import '../Model/postModel.dart';
+import '../Util/colors.dart';
+import '../Widgets/appBarIcon.dart';
+import '../Widgets/createPost.dart';
+import '../Widgets/postContainer.dart';
+import '../Widgets/rooms.dart';
+import '../Widgets/stories.dart';
 
-class MobileScreen extends StatefulWidget {
-  const MobileScreen({Key? key}) : super(key: key);
-
-  @override
-  State<MobileScreen> createState() => _MobileScreenState();
-}
-
-class _MobileScreenState extends State<MobileScreen> {
-  List<Widget> screens = const [
-    HomePage(),
-    Scaffold(),
-    Scaffold(),
-    Scaffold(),
-    Scaffold(),
-    Scaffold(),
-  ];
-
-  List<IconData> icon = const [
-    Icons.home,
-    Icons.ondemand_video,
-    MdiIcons.accountCircleOutline,
-    MdiIcons.accountGroupOutline,
-    MdiIcons.bellOutline,
-    Icons.menu,
-  ];
-
-  int selectedIndex = 0;
+class MobileScreen extends StatelessWidget {
+  final TrackingScrollController trackingScrollController;
+  const MobileScreen({Key? key, required this.trackingScrollController})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: screens.length,
-      child: Scaffold(
-        body: IndexedStack(
-          index: selectedIndex,
-          children: screens,
-        ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.only(bottom: 12.0),
-          child: CustomTabBar(
-            icon: icon,
-            selectedIndex: selectedIndex,
-            onTap: (index) => setState(
-              () => selectedIndex = index,
+    return CustomScrollView(
+      controller: trackingScrollController,
+      slivers: [
+        SliverAppBar(
+          floating: true,
+          centerTitle: false,
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+          backgroundColor: Palette.whiteColor,
+          title: Row(
+            children: const [
+              Image(
+                image: AssetImage('assets/facebook.png'),
+                width: 50,
+                height: 50,
+              ),
+              Text(
+                'acebook',
+                style: TextStyle(
+                  color: Palette.facebookBlue,
+                  fontSize: 28.0,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: -1.2,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            AppBarIcon(
+              iconSize: 30.0,
+              icon: Icons.search,
+              onPressed: (() {}),
             ),
+            AppBarIcon(
+              iconSize: 30.0,
+              icon: MdiIcons.facebookMessenger,
+              onPressed: (() {}),
+            )
+          ],
+        ),
+        SliverToBoxAdapter(
+          child: CreatePost(currentUser: currentUser),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 5.0),
+          sliver: SliverToBoxAdapter(
+            child: Rooms(onlineUsers: onlineUsers),
           ),
         ),
-      ),
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(0, 5.0, 0, 5.0),
+          sliver: SliverToBoxAdapter(
+            child: Stories(currentUser: currentUser, stories: stories),
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              Post post = posts[index];
+              return PostContainer(post: post);
+            },
+            childCount: posts.length,
+          ),
+        )
+      ],
     );
   }
 }

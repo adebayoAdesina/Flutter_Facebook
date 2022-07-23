@@ -1,86 +1,34 @@
-import 'package:facebook_ui/Data/data.dart';
-import 'package:facebook_ui/Util/colors.dart';
-import 'package:facebook_ui/Widgets/createPost.dart';
+
+import 'package:facebook_ui/Responsiveness/responsiveness.dart';
+import 'package:facebook_ui/Screens/desktop.dart';
+import 'package:facebook_ui/Screens/mobileScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../Model/postModel.dart';
-import '../Widgets/appBarIcon.dart';
-import '../Widgets/postContainer.dart';
-import '../Widgets/rooms.dart';
-import '../Widgets/stories.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  TrackingScrollController trackingScrollController = TrackingScrollController();
+  @override
+  void dispose() {
+    trackingScrollController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            centerTitle: false,
-            systemOverlayStyle: SystemUiOverlayStyle.light,
-            backgroundColor: Palette.whiteColor,
-            title: Row(
-              children: const [
-                Image(
-                  image: AssetImage('assets/facebook.png'),
-                  width: 50,
-                  height: 50,
-                ),
-                Text(
-                  'acebook',
-                  style: TextStyle(
-                    color: Palette.facebookBlue,
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: -1.2,
-                  ),
-                ),
-              ],
-            ),
-            actions: [
-              AppBarIcon(
-                iconSize: 30.0,
-                icon: Icons.search,
-                onPressed: (() {}),
-              ),
-              AppBarIcon(
-                iconSize: 30.0,
-                icon: MdiIcons.facebookMessenger,
-                onPressed: (() {}),
-              )
-            ],
-          ),
-          SliverToBoxAdapter(
-            child: CreatePost(currentUser: currentUser),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 5.0),
-            sliver: SliverToBoxAdapter(
-              child: Rooms(onlineUsers: onlineUsers),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(0, 5.0, 0, 5.0),
-            sliver: SliverToBoxAdapter(
-              child: Stories(currentUser: currentUser, stories: stories),
-            ),
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              
-              (context, index) {
-                Post post = posts[index];
-                return PostContainer(post: post);
-              },
-              childCount: posts.length,
-            ),
-          )
-        ],
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: Responsiveness(
+          desktop: DesktopScreen(trackingScrollController: trackingScrollController),
+          tablet: MobileScreen(trackingScrollController: trackingScrollController),
+          mobile: MobileScreen(trackingScrollController: trackingScrollController),
+        ),
       ),
     );
   }
